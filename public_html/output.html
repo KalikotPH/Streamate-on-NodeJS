@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OUTPUT</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="/jscript/socket.io.js"></script>
+        <script>
+            var socket = io('http://localhost:8080');
+            socket.on('welcome', function (data) {
+                console.log('Token: ' + data.token);
+
+                var $_GET = {};
+                if(document.location.toString().indexOf('?') !== -1) {
+                    var query = document.location
+                                .toString() // get the query string
+                                .replace(/^.*?\?/, '') // and remove any existing hash string
+                                .replace(/#.*$/, '')
+                                .split('&');
+                    for(var i=0, l=query.length; i<l; i++) {
+                    var aux = decodeURIComponent(query[i]).split('=');
+                    $_GET[aux[0]] = aux[1];
+                    }
+                } //get the 'index' query parameter
+
+                socket.emit('session', { contype: 'output', chanid : $_GET['cid'] });
+            });
+        </script>
+    </head>
+    <body>
+
+        Please wait white for input to send event!
+    
+        <script>
+            socket.on('play', function (data) {
+                console.log('Playing: ' + data);
+
+                //Playing sound!
+                const sound = new Audio();
+                sound.src = '/audio/' + data + '.mp3';
+                sound.play();
+            });
+
+            socket.on('reload', function (data) {
+                location.reload();
+            });
+        </script>
+
+    </body>
+</html>

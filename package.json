@@ -1,0 +1,22 @@
+{
+  "name": "streamx",
+  "version": "0.1.0",
+  "description": "Virtual Custom Keyboard",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "obs",
+    "audio",
+    "android",
+    "ios",
+    "mobile"
+  ],
+  "author": "Bytes Crafter",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "*",
+    "express": "*"
+  }
+}

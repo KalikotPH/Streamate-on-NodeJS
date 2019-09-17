@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>INPUT</title>
+        <link rel="stylesheet" href="style.css">
+        <script src='/jscript/socket.io.js'></script>
+        <script>
+            var socket = io('http://localhost:8080');
+            socket.on('welcome', function (data) {
+                console.log('Token: ' + data.token);
+
+                var $_GET = {};
+                if(document.location.toString().indexOf('?') !== -1) {
+                    var query = document.location
+                                .toString() // get the query string
+                                .replace(/^.*?\?/, '') // and remove any existing hash string
+                                .replace(/#.*$/, '')
+                                .split('&');
+                    for(var i=0, l=query.length; i<l; i++) {
+                    var aux = decodeURIComponent(query[i]).split('=');
+                    $_GET[aux[0]] = aux[1];
+                    }
+                } //get the 'index' query parameter
+
+                socket.emit('session', { contype: 'input', chanid : $_GET['cid'] });
+            });
+        </script>
+    </head>
+    <body>
+
+        <button id='radio/laugh-midget' onClick='reply_click(this.id)' class="block" style="background-color: #4CAF50;">RADIO: LAUGH</button>
+        <button id='dota/monsterkill' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 120, 76);">DOTA: MONSTERKILL</button>
+        <button id='dota/godlike' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 76, 81);">DOTA: GODLIKE</button>
+        <button id='dota/rampage' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 76, 150);">DOTA: RAMPAGE</button>
+        <button id='dota/killingspree' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 173, 76);">DOTA: KILLINGSPREE</button>
+
+        <button id='reloading' onClick='reply_click(this.id)' class="block" style="background-color: rgb(68, 122, 238);">Reload Output</button>
+    
+        <script>            
+
+            function reply_click(clicked_id)
+            {
+                console.log('Button Event: ' + clicked_id); 
+
+                if( clicked_id == 'reloading' )
+                {
+                    socket.emit('reload', { });
+                }
+
+                else 
+                {
+                    socket.emit('play', { sound: clicked_id });
+                }
+            }
+            
+        </script>
+
+    </body>
+</html>
