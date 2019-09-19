@@ -28,28 +28,28 @@
     </head>
     <body>
 
-        <button id='radio/laugh-midget' onClick='reply_click(this.id)' class="block" style="background-color: #4CAF50;">RADIO: LAUGH</button>
-        <button id='dota/monsterkill' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 120, 76);">DOTA: MONSTERKILL</button>
-        <button id='dota/godlike' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 76, 81);">DOTA: GODLIKE</button>
-        <button id='dota/rampage' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 76, 150);">DOTA: RAMPAGE</button>
-        <button id='dota/killingspree' onClick='reply_click(this.id)' class="block" style="background-color: rgb(175, 173, 76);">DOTA: KILLINGSPREE</button>
+        <button id='radio/laugh-midget' onClick='click_play(this.id)' class="block" style="background-color: #4CAF50;">RADIO: LAUGH</button>
+        <button id='dota/monsterkill' onClick='click_play(this.id)' class="block" style="background-color: rgb(175, 120, 76);">DOTA: MONSTERKILL</button>
+        <button id='dota/godlike' onClick='click_play(this.id)' class="block" style="background-color: rgb(175, 76, 81);">DOTA: GODLIKE</button>
+        <button id='dota/rampage' onClick='click_play(this.id)' class="block" style="background-color: rgb(175, 76, 150);">DOTA: RAMPAGE</button>
+        <button id='dota/killingspree' onClick='click_play(this.id)' class="block" style="background-color: rgb(175, 173, 76);">DOTA: KILLINGSPREE</button>
 
-        <button id='reloading' onClick='reply_click(this.id)' class="block" style="background-color: rgb(68, 122, 238);">Reload Output</button>
+        <button id='reloading' onClick='click_play(this.id)' class="block" style="background-color: rgb(68, 122, 238);">Reload Output</button>
     
         <script>            
 
-            function reply_click(clicked_id)
+            function click_play(play_string)
             {
-                console.log('Button Event: ' + clicked_id); 
+                console.log('Button Event: ' + play_string); 
 
-                if( clicked_id == 'reloading' )
+                if( play_string == 'reloading' )
                 {
                     socket.emit('reload', { });
                 }
 
                 else 
                 {
-                    socket.emit('play', { sound: clicked_id });
+                    socket.emit('play', { sound: play_string });
                 }
             }
             

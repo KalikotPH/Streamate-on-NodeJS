@@ -56,7 +56,7 @@ app.get('*', function(req, res){
     });
 });
 
-var listener = server.listen( process.env.PORT || 8080, () => {
+var listener = server.listen( process.env.PORT || 3001, () => {
     console.log( 'Server is now running on ' + listener.address().address + ':' + listener.address().port );
 });
 
@@ -71,8 +71,15 @@ sio.on('connection', function (socket) {
     socket.on('session', function (data) {
         curroom = data.chanid;
         socket.join(curroom);
+        console.log("Connected! " + socket.id + ' Type: ' + data.contype );
+    });
 
-        console.log( 'Connection Type: ' + data.contype );
+    socket.on('connect', function () {
+        console.log("Connected: " + socket.id);
+    });
+
+    socket.on('reconnect', function () {
+        console.log("Reconnected: " + socket.id);
     });
 
     socket.on('play', function (data) {
@@ -80,16 +87,18 @@ sio.on('connection', function (socket) {
 
         //Only for user output.
         socket.broadcast.to(curroom).emit('play', data.sound);
+        //socket.emit('play', data.sound);
     });
 
     socket.on('reload', function (data) {
         console.log( 'Reloading! ' + data );
 
         //Only for user output.
-        socket.broadcast.emit('reload', data);
+        socket.broadcast.to(curroom).emit('reload', data);
     });
 
     socket.on('disconnect', function () {
+        console.log("Disconnected! " + socket.id);
         socket.emit('disconnection');
     });
 });
